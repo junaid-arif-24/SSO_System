@@ -20,11 +20,7 @@ app.use(
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cors({
-    origin: `${process.env.CLIENT_URL}`,
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true,
-}));
+app.use(cors());
 
 const mongoOptions = {
     useNewUrlParser: true,
