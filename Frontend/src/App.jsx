@@ -19,7 +19,7 @@ function App() {
         <Route exact path="/concern" element={<UserConcernsPage/>}/>
         <Route exact path="/hosting" element={<HostingSelection/>}/>
         <Route exact path="/dashboard" element={<Dashboard/>}/>
-        <Route exact path="/success" element={<SuccessPage/>}/>
+        <Route  path="/success" element={<SuccessPage/>}/>
       </Routes>
     </Router>
    
