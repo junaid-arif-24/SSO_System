@@ -52,7 +52,7 @@ router.get(
   "/github/callback",
   passport.authenticate("github", {
     successRedirect: `${process.env.CLIENT_URL}/success`, 
-    failureRedirect: `${process.env.CLIENT_URL}/signup`,   // Corrected the URL
+    failureRedirect: `${process.env.CLIENT_URL}/signup`,   
   }),
   (req, res) => {
     res.send('Thanks for signing in with GitHub');

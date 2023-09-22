@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {
   Container,
   Card,
@@ -16,8 +16,8 @@ import VerticalLine from '../components/VerticalLine';
 import FormField from '../components/FormField';
 import SocialButtons from '../components/SocialButtons';
 import VectorImg from '../assets/Vector.png';
-import { useRecoilState } from 'recoil';
-import { userAtom } from '../store/userAtom';
+import {useRecoilState} from 'recoil';
+import {userAtom} from '../store/userAtom';
 const theme = createTheme({
   components: {
     MuiTextField: {
@@ -47,35 +47,37 @@ const SignUp = () => {
     confirmPassword: '',
   });
   const navigate = useNavigate();
-  const [,setUsername] = useRecoilState(userAtom)
-  const handleSubmit = async (e) => {
+  const [, setUsername] = useRecoilState(userAtom);
+  const handleSubmit = async e => {
     e.preventDefault();
-    console.log(formData)
+    console.log(formData);
 
     try {
-      
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
         },
-        body: JSON.stringify(formData),
-      });
+      );
       if (response.ok) {
         const data = await response.json();
         console.log('Signup successful:', data);
-        localStorage.setItem('token',data.token);
-        const newUsername = formData.firstName+ " " + formData.lastName;
-        localStorage.setItem('username',newUsername);
-        setUsername(newUsername)
+        localStorage.setItem('token', data.token);
+        const newUsername = formData.firstName + ' ' + formData.lastName;
+        localStorage.setItem('username', newUsername);
+        setUsername(newUsername);
         setFormData({
           firstName: '',
           lastName: '',
           email: '',
           password: '',
           confirmPassword: '',
-        })
-        navigate("/concern");
+        });
+        navigate('/concern');
       } else {
         console.error('Signup failed:', response.statusText);
       }
@@ -88,7 +90,6 @@ const SignUp = () => {
     setFormData({...formData, [name]: value});
   };
 
-
   const inputProps = {
     InputProps: {
       style: {fontSize: '10px'},
@@ -99,65 +100,40 @@ const SignUp = () => {
   };
   const fetchAuthUser = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/user`, {
-        method: "GET",
-        credentials: "include", 
-      });
-  
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/auth/user`,
+        {
+          method: 'GET',
+          credentials: 'include',
+        },
+      );
+
       if (response.ok) {
         const data = await response.json();
-        console.log("User Authenticated!");
+        console.log('User Authenticated!');
         const newUsername = data.fullname;
-        localStorage.setItem('username',newUsername);
-        setUsername(newUsername)
-        navigate("/concern");
+        localStorage.setItem('username', newUsername);
+        setUsername(newUsername);
+        navigate('/concern');
       } else {
-        console.log("Not properly authenticated");
+        console.log('Not properly authenticated');
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error);
     }
   };
-  
 
   const redirectToGoogleSSO = async () => {
-    let timer = null;
     const googleLoginURL = `${import.meta.env.VITE_BACKEND_URL}/auth/google`;
-    const newWindow = window.open(
-      googleLoginURL,
-      "_blank",
-      "width=500,height=600"
-    );
+    window.open(googleLoginURL, '_self');
 
-    if (newWindow) {
-      timer = setInterval(() => {
-        if (newWindow.closed) {
-          console.log("Yay we're authenticated");
-          fetchAuthUser();
-          if (timer) clearInterval(timer);
-        }
-      }, 500);
-    }
+    fetchAuthUser();
   };
 
   const redirectToGithubSSO = async () => {
-    let timer = null;
     const githubLoginURL = `${import.meta.env.VITE_BACKEND_URL}/auth/github`;
-    const newWindow = window.open(
-      githubLoginURL,
-      "_blank",
-      "width=500,height=600"
-    );
-
-    if (newWindow) {
-      timer = setInterval(() => {
-        if (newWindow.closed) {
-          console.log("Yay we're authenticated");
-          fetchAuthUser();
-          if (timer) clearInterval(timer);
-        }
-      }, 500);
-    }
+    window.open(githubLoginURL, '_self');
+    fetchAuthUser();
   };
   return (
     <ThemeProvider theme={theme}>
@@ -266,8 +242,7 @@ const SignUp = () => {
                     marginTop: '0.5rem',
                     backgroundColor: '#1F64FF',
                   }}
-                  onClick={handleSubmit}
-                  >
+                  onClick={handleSubmit}>
                   Signup
                 </Button>
               </form>
@@ -289,7 +264,10 @@ const SignUp = () => {
                   justifyContent: 'center',
                   marginTop: '0.5rem',
                 }}>
-                <SocialButtons googleFunction={redirectToGoogleSSO} githubFunction={redirectToGithubSSO} />
+                <SocialButtons
+                  googleFunction={redirectToGoogleSSO}
+                  githubFunction={redirectToGithubSSO}
+                />
               </Box>
               <Typography
                 variant="subtitle2"

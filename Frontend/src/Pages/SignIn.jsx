@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {
   Container,
   Card,
@@ -16,8 +16,8 @@ import VerticalLine from '../components/VerticalLine';
 import FormField from '../components/FormField';
 import SocialButtons from '../components/SocialButtons';
 import VectorImg from '../assets/Vector.png';
-import { useRecoilState } from 'recoil';
-import { userAtom } from '../store/userAtom';
+import {useRecoilState} from 'recoil';
+import {userAtom} from '../store/userAtom';
 const theme = createTheme({
   components: {
     MuiTextField: {
@@ -43,8 +43,8 @@ const SignUp = () => {
     email: '',
     password: '',
   });
-const navigate = useNavigate();
-const [username,setUsername] = useRecoilState(userAtom)
+  const navigate = useNavigate();
+  const [username, setUsername] = useRecoilState(userAtom);
   const handleChange = e => {
     const {name, value} = e.target;
     setFormData({...formData, [name]: value});
@@ -55,7 +55,6 @@ const [username,setUsername] = useRecoilState(userAtom)
     console.log(formData);
 
     try {
-      
       const response = await fetch(
         `${import.meta.env.VITE_BACKEND_URL}/auth/login`,
         {
@@ -69,8 +68,9 @@ const [username,setUsername] = useRecoilState(userAtom)
       if (response.ok) {
         const data = await response.json();
         const newUsername = data.username;
-        localStorage.setItem('username',newUsername);
-        setUsername(newUsername)
+        localStorage.setItem('username', newUsername);
+        setUsername(newUsername);
+        navigate('/concern')
         console.log('Signup successful:', data);
       } else {
         console.error('Signup failed:', response.statusText);
@@ -88,67 +88,19 @@ const [username,setUsername] = useRecoilState(userAtom)
       shrink: false,
     },
   };
-  const fetchAuthUser = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/user`, {
-        method: "GET",
-        credentials: "include", 
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        console.log("User: ", data);
-        const newUsername = data.fullname;
-        localStorage.setItem('username',newUsername);
-        setUsername(newUsername)
-        navigate("/concern");
-      } else {
-        console.log("Not properly authenticated");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-    }
-  };
   
 
   const redirectToGoogleSSO = async () => {
-    let timer = null;
     const googleLoginURL = `${import.meta.env.VITE_BACKEND_URL}/auth/google`;
-    const newWindow = window.open(
-      googleLoginURL,
-      "_blank",
-      "width=500,height=600"
-    );
+    window.open(googleLoginURL, '_self');
 
-    if (newWindow) {
-      timer = setInterval(() => {
-        if (newWindow.closed) {
-          console.log("Yay we're authenticated");
-          fetchAuthUser();
-          if (timer) clearInterval(timer);
-        }
-      }, 500);
-    }
+    
   };
 
   const redirectToGithubSSO = async () => {
-    let timer = null;
     const githubLoginURL = `${import.meta.env.VITE_BACKEND_URL}/auth/github`;
-    const newWindow = window.open(
-      githubLoginURL,
-      "_blank",
-      "width=500,height=600"
-    );
-
-    if (newWindow) {
-      timer = setInterval(() => {
-        if (newWindow.closed) {
-          console.log("Yay we're authenticated");
-          fetchAuthUser();
-          if (timer) clearInterval(timer);
-        }
-      }, 500);
-    }
+    window.open(githubLoginURL, '_self');
+    
   };
   return (
     <ThemeProvider theme={theme}>
@@ -195,7 +147,7 @@ const [username,setUsername] = useRecoilState(userAtom)
                   fontFamily: 'Nunito',
                   fontWeight: 800,
                 }}>
-               { `Welcom ${username}`}
+                {`Welcom ${username}`}
               </Typography>
 
               <div
@@ -253,8 +205,7 @@ const [username,setUsername] = useRecoilState(userAtom)
                     marginTop: '1.5rem',
                     backgroundColor: '#1F64FF',
                   }}
-                  onClick={handleSubmit}
-                  >
+                  onClick={handleSubmit}>
                   Signup
                 </Button>
               </form>
@@ -276,7 +227,10 @@ const [username,setUsername] = useRecoilState(userAtom)
                   justifyContent: 'center',
                   marginTop: '1.5rem',
                 }}>
-                <SocialButtons googleFunction={redirectToGoogleSSO} githubFunction={redirectToGithubSSO} />
+                <SocialButtons
+                  googleFunction={redirectToGoogleSSO}
+                  githubFunction={redirectToGithubSSO}
+                />
               </div>
               <Typography
                 variant="subtitle2"
