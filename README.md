@@ -84,13 +84,15 @@
             required configurations.</li>
         <li>Start the frontend and backend servers:
             <pre># In the frontend directory
-npm start</pre>
+npm run dev</pre>
 <pre># In the backend directory
-npm start</pre>
+node index.js</pre>
         </li>
-        <li>Access the application at <a href="http://localhost:3000">http://localhost:3000</a> in your web browser.
-        </li>
-    </ol>
+            <li>Access the application's Frontend at <a href="http://localhost:5173">http://localhost:5173</a> in your web browser.
+        <li>Access the application's Bakend at <a href="http://localhost:3000">http://localhost:3000</a> in your web browser.
+        
+</li>
+</ol>
 
 <h2 id="#usage">Usage</h2>
     <ul>
