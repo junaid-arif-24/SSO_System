@@ -12,7 +12,7 @@ const app = express();
 app.use(cookieParser());
 app.use(
   session({
-    secret: 'your-secret-key',
+    secret: `${process.env.JWT_SECRET}`,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -24,7 +24,13 @@ app.use(
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(cors());
+app.use(
+  cors({
+    origin: `${process.env.CLIENT_URL}`,
+    methods: 'GET,POST,PUT,DELETE',
+    credentials: true,
+  }),
+);
 
 const mongoOptions = {
   useNewUrlParser: true,
