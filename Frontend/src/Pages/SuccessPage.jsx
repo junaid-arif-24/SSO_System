@@ -14,12 +14,12 @@ const SuccessPage = () => {
         credentials: 'include',
       });
   
-      if (response.ok) {
+      if (response.ok === 200) {
         const data = await response.json();
         console.log('User: ', data);
         const newUsername = data.fullname;
         localStorage.setItem('username', newUsername);
-        setUsername(newUsername);
+        setUsername(newUsername); 
         navigate('/concern'); 
       } else {
         console.log('Not properly authenticated');
