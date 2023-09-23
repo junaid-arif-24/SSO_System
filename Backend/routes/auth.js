@@ -2,7 +2,6 @@ const express = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User")
-const { isUserAuthenticated } = require("../middleware/verification");
 require('dotenv').config(); 
 const router = express.Router();
 const SECRET = process.env.JWT_SECRET
@@ -86,9 +85,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.get("/user", isUserAuthenticated, (req, res) => {
-  console.log(" user from route: " +req.user)
-  console.log(" req from route: " +JSON.stringify(req))
+router.get("/user", (req, res) => {
   res.json(req.user);
 });
 
