@@ -15,8 +15,7 @@ app.use(
     name: 'session',
     keys: ['Junaid'],
     maxAge: 24 * 60 * 60 * 1000,
-    sameSite: 'none',
-    secure: true,
+    
   }),
 );
 app.use(express.json());
