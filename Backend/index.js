@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const passport = require('passport');
-const cookieSession = require('cookie-session');
+const session = require('express-session');
 const cookieParser = require('cookie-parser');
 require('./Auth/GithubAuthStrategy');
 require('./Auth/GoogleAuthStrategy');
@@ -11,13 +11,16 @@ const mongoose = require('mongoose');
 const app = express();
 app.use(cookieParser());
 app.use(
-  cookieSession({
-    name: 'session',
-    keys: ['Junaid'],
-    maxAge: 24 * 60 * 60 * 1000,
-    
-  }),
+  session({
+    secret: 'your-secret-key', 
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000,
+    },
+  })
 );
+
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());

@@ -8,6 +8,7 @@ const SuccessPage = () => {
   const navigate = useNavigate();
 
   const fetchAuthUser = () => {
+   
     fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/user`, {
       method: 'GET',
       credentials: 'include',
