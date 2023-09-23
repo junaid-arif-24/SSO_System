@@ -7,28 +7,30 @@ const SuccessPage = () => {
   const [, setUsername] = useRecoilState(userAtom);
   const navigate = useNavigate();
 
-  const fetchAuthUser = async () => {
-    try {
-      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/user`, {
-        method: 'GET',
-        credentials: 'include',
-      });
-  
-      if (response.status === 200) {
-        const data = await response.json();
+  const fetchAuthUser = () => {
+    fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/user`, {
+      method: 'GET',
+      credentials: 'include',
+    })
+      .then(response => {
+        if (response.status === 200) {
+          return response.json();
+        } else {
+          console.log('Not properly authenticated');
+          throw new Error('Authentication failed');
+        }
+      })
+      .then(data => {
         console.log('User: ', data);
         const newUsername = data.fullname;
         localStorage.setItem('username', newUsername);
-        setUsername(newUsername); 
-        navigate('/concern'); 
-      } else {
-        console.log('Not properly authenticated');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
+        setUsername(newUsername);
+        navigate('/concern');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
   };
-  
 
   useEffect(() => {
     setTimeout(() => {
