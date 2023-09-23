@@ -206,7 +206,7 @@ const SignUp = () => {
                     backgroundColor: '#1F64FF',
                   }}
                   onClick={handleSubmit}>
-                  Signup
+                  Signin
                 </Button>
               </form>
               <Typography
@@ -241,7 +241,7 @@ const SignUp = () => {
                   fontFamily: 'Nunito',
                   fontWeight: 500,
                 }}>
-                {`Don't have an Account?`} <Link href="#">SIGN UP</Link>
+                {`Don't have an Account?`} <Link to="/signup">SIGN UP</Link>
               </Typography>
             </Grid>
             <VerticalLine />

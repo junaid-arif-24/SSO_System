@@ -87,6 +87,8 @@ router.post('/login', async (req, res) => {
 });
 
 router.get("/user", isUserAuthenticated, (req, res) => {
+  console.log(" user from route: " +req.user)
+  console.log(" req from route: " +JSON.stringify(req))
   res.json(req.user);
 });
 

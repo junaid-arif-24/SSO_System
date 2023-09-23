@@ -9,21 +9,18 @@ const SuccessPage = () => {
 
   const fetchAuthUser = async () => {
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/user`,
-        {
-          method: 'GET',
-          credentials: 'include',
-        },
-      );
-
-      if (response.status === 200) {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/auth/user`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+  
+      if (response.ok) {
         const data = await response.json();
         console.log('User: ', data);
         const newUsername = data.fullname;
         localStorage.setItem('username', newUsername);
-        setUsername(newUsername); // Assuming setUsername is a function you have defined elsewhere
-        navigate('/concern'); // Assuming navigate is a function you have defined elsewhere
+        setUsername(newUsername);
+        navigate('/concern'); 
       } else {
         console.log('Not properly authenticated');
       }
@@ -31,6 +28,7 @@ const SuccessPage = () => {
       console.error('Error:', error);
     }
   };
+  
 
   useEffect(() => {
     setTimeout(() => {
