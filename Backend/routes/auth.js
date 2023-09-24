@@ -86,7 +86,18 @@ router.post('/login', async (req, res) => {
 });
 
 router.get("/user", (req, res) => {
-  res.json(req.user);
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: "User not authenticated" });
+    }
+
+    const userData = req.user;
+
+    res.status(200).json(userData);
+  } catch (error) {
+    console.error("Error retrieving user data:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
 });
 
 module.exports = router;
