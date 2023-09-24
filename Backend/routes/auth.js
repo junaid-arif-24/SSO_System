@@ -87,9 +87,9 @@ router.post('/login', async (req, res) => {
 
 router.get("/user", (req, res) => {
   try {
-    if (!req.user) {
-      return res.status(401).json({ error: "User not authenticated" });
-    }
+    // if (!req.user) {
+    //   return res.status(401).json({ error: "User not authenticated" });
+    // }
 
     const userData = req.user;
 
