@@ -11,6 +11,7 @@ import {
   createTheme,
   ThemeProvider,
   Box,
+  useMediaQuery,
 } from '@mui/material';
 import VerticalLine from '../components/VerticalLine';
 import FormField from '../components/FormField';
@@ -44,6 +45,8 @@ const SignUp = () => {
     password: '',
   });
   const navigate = useNavigate();
+  const isMobile = useMediaQuery('(max-width: 768px)'); 
+
   const [username, setUsername] = useRecoilState(userAtom);
   const handleChange = e => {
     const {name, value} = e.target;
@@ -123,7 +126,8 @@ const SignUp = () => {
             display: 'flex',
             gap: 5,
             flexDirection: 'column',
-            maxHeight: '550px',
+            maxHeight: isMobile?'650px':'550px',
+            
             paddingBottom: '4rem',
             borderTopRightRadius: '30px',
             borderBottomLeftRadius: '30px',
@@ -241,7 +245,7 @@ const SignUp = () => {
                   fontFamily: 'Nunito',
                   fontWeight: 500,
                 }}>
-                {`Don't have an Account?`} <Link to="/signup">SIGN UP</Link>
+                {`Don't have an Account?`} <Link onClick={()=>{navigate('/signup')}}>SIGN UP</Link>
               </Typography>
             </Grid>
             <VerticalLine />

@@ -11,6 +11,7 @@ import {
   createTheme,
   ThemeProvider,
   Box,
+  useMediaQuery,
 } from '@mui/material';
 import VerticalLine from '../components/VerticalLine';
 import FormField from '../components/FormField';
@@ -47,6 +48,7 @@ const SignUp = () => {
     confirmPassword: '',
   });
   const navigate = useNavigate();
+  const isMobile = useMediaQuery('(max-width: 768px)'); 
   const [, setUsername] = useRecoilState(userAtom);
   const handleSubmit = async e => {
     e.preventDefault();
@@ -98,42 +100,15 @@ const SignUp = () => {
       shrink: false,
     },
   };
-  const fetchAuthUser = async () => {
-    try {
-      const response = await fetch(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/user`,
-        {
-          method: 'GET',
-          credentials: 'include',
-        },
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log('User Authenticated!');
-        const newUsername = data.fullname;
-        localStorage.setItem('username', newUsername);
-        setUsername(newUsername);
-        navigate('/concern');
-      } else {
-        console.log('Not properly authenticated');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
 
   const redirectToGoogleSSO = async () => {
     const googleLoginURL = `${import.meta.env.VITE_BACKEND_URL}/auth/google`;
     window.open(googleLoginURL, '_self');
-
-    fetchAuthUser();
   };
 
   const redirectToGithubSSO = async () => {
     const githubLoginURL = `${import.meta.env.VITE_BACKEND_URL}/auth/github`;
     window.open(githubLoginURL, '_self');
-    fetchAuthUser();
   };
   return (
     <ThemeProvider theme={theme}>
@@ -156,7 +131,7 @@ const SignUp = () => {
             display: 'flex',
             gap: 5,
             flexDirection: 'column',
-            maxHeight: '550px',
+            maxHeight: isMobile?'650px':'550px',
             borderTopRightRadius: '30px',
             borderBottomLeftRadius: '30px',
           }}>
@@ -233,7 +208,7 @@ const SignUp = () => {
                     inputProps={inputProps}
                   />
                 ))}
-
+               
                 <Button
                   variant="contained"
                   fullWidth
@@ -278,7 +253,7 @@ const SignUp = () => {
                   fontFamily: 'Nunito',
                   fontWeight: 500,
                 }}>
-                Already have an Account? <Link to="/signin">Login</Link>
+                Already have an Account? <Link onClick={()=>{navigate('/signin')}}>Login</Link>
               </Typography>
             </Grid>
             <VerticalLine />
